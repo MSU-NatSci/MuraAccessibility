@@ -1,0 +1,73 @@
+.accessibility-badge {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    z-index: 9999;
+	border-radius: 50%;
+    text-align: center;
+}
+
+.accessibility-badge-good {
+	width: 50px;
+	height: 50px;
+    font-size: 35px;
+    line-height: 35px;
+    padding: 7px;
+    color: green;
+    cursor: default;
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, white 0%, green 100%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, white 0%, green 100%);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, white 0%, green 100%);
+}
+
+.accessibility-badge-bad {
+	width: 75px;
+	height: 75px;
+    font-size: 50px;
+    line-height: 50px;
+    padding: 10px;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow 0%, orange 100%);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%);
+}
+
+.accessibility-popup {
+    position: fixed;
+    top: 140px;
+    right: 0px;
+    width: 350px;
+    z-index: 9999;
+    background-color: #EEA;
+    border: 1px solid gray;
+}
+
+.accessibility-popup>ul {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+.accessibility-popup>ul>li>ul {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+.accessibility-popup>ul>li>ul>li {
+    cursor: pointer;
+}
+
+.accessibility-popup>ul>li>ul>li>span {
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.accessibility-popup>ul>li>ul>li:hover {
+    color: #00F;
+}
+
+.accessibility-highlight {
+    background-color: #7EF;
+    border: 2px solid red;
+}
