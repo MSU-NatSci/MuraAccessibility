@@ -29,11 +29,15 @@ let startChecking = function() {
     let violationList = document.getElementById('violationList');
     violationList.innerHTML = '';
     configureAxe();
-    let urlSpan = document.getElementById('testURL');
     nbDocs = 0;
+    let nbDocsSpan = document.getElementById('nbDocs');
+    nbDocsSpan.innerHTML = '' + nbDocs + ' / ' + urls.length;
     nbViolations = 0;
+    let nbViolationsSpan = document.getElementById('nbViolations');
+    nbViolationsSpan.innerHTML = '' + nbViolations;
     let url = urls[0];
     currentURL = url;
+    let urlSpan = document.getElementById('testURL');
     urlSpan.innerHTML = url;
     iframe.src = url;
 }
