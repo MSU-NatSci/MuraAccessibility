@@ -37,6 +37,9 @@
     </div>
     <div class="block block-bordered">
         <div class="block-content">
+            <cfif $.siteConfig('domain') neq cgi.server_name>
+                <p>Warning: this plugin only works when the selected site has the same domain as the one in this page URL.</p>
+            </cfif>
             <p>
                 <button id="startChecking">Start checking the site</button>
                 <button id="stopChecking">Stop</button>
