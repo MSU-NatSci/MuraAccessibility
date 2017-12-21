@@ -18,8 +18,12 @@ function configureAxe() {
                 let alt = node.getAttribute('alt');
                 if (alt == null || alt != '')
                     return true; // another rule will catch that
-                if (node.width < 30)
-                    return true; // this could really be for decorative purpose
+                let width = node.getAttribute('width');
+                if (width != null) {
+                    width = parseInt(width);
+                    if (width != NaN && width < 30)
+                        return true; // this could really be for decorative purpose
+                }
                 return false;
             }
         }
