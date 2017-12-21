@@ -21,7 +21,7 @@ function configureAxe() {
                 let width = node.getAttribute('width');
                 if (width != null) {
                     width = parseInt(width);
-                    if (width != NaN && width < 30)
+                    if (!isNaN(width) && width < 30)
                         return true; // this could really be for decorative purpose
                 }
                 return false;
