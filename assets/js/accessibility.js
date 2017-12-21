@@ -59,7 +59,15 @@ let iframeLoaded = function() {
     let iframeDoc = iframe.contentWindow.document;
     let muraBody = iframeDoc.querySelector('.mura-body');
     if (muraBody == null) {
-        console.log("no result for " + currentURL + " (no element with the mura-body class)");
+        let ul = document.getElementById('violationList');
+        let docLi = document.createElement('li');
+        docLi.innerHTML = "No result for <a href=\"" + currentURL + "\">" + currentURL +
+            "</a> (no element with the mura-body class)";
+        ul.appendChild(docLi);
+        if (!stopRequested)
+            nextURL();
+        else
+            endChecking();
         return;
     }
     let context = jQuery(muraBody); // jQuery is needed in Chrome
