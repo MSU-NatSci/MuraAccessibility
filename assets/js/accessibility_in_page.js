@@ -2,6 +2,8 @@
 
 let contentLoaded = function() {
     let muraToolbar = document.getElementById('frontEndTools');
+    if (muraToolbar == null)
+        return;
     muraToolbar.addEventListener('mouseover', (e) => removeHighlight(), false);
     let muraBody = document.querySelector('.mura-body');
     if (muraBody == null) {
