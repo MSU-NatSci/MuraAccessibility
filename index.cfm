@@ -20,10 +20,8 @@
     <link href="assets/css/accessibility.css" rel="stylesheet">
     <script>
         var urls = [
-            <cfset lastItem = urls[urls.len()]>
-            <cfloop index="aurl" array="#urls#">
-                '#encodeForJavaScript(aurl)#'
-                <cfif aurl is not lastItem>,</cfif>
+            <cfloop index="i" from="1" to="#urls.len()#">
+                '#encodeForJavaScript(urls[i])#'<cfif i neq urls.len()>,</cfif>
             </cfloop>
         ];
     </script>
