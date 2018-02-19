@@ -12,7 +12,9 @@
     iterator = feedBean.getIterator();
     while (iterator.hasNext()) {
         item = iterator.next();
-        urls.append(item.getUrl());
+        itemURL = item.getUrl();
+        if (urls.find(itemURL) == 0)
+            urls.append(itemURL);
     }
 </cfscript>
 
