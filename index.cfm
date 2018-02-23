@@ -48,12 +48,12 @@
             </p>
             <p><strong>Number of documents checked:</strong> <span id="nbDocs">0 / #urls.len()#</span></p>
             <p><strong>Total number of violations:</strong> <span id="nbViolations">0</span></p>
-			<p><strong>Testing URL:</strong> <span id="testURL"></span></p>
+            <p><strong>Testing URL:</strong> <span id="testURL"></span></p>
             <p><strong>Violations:</strong></p>
             <ul id="violationList"></ul>
         </div>
     </div>
 </cfoutput></cfsavecontent>
 <cfoutput>
-	#$.getBean('pluginManager').renderAdminTemplate(body=body, pagetitle=pluginConfig.getName())#
+    #$.getBean('pluginManager').renderAdminTemplate(body=body, pagetitle=pluginConfig.getName())#
 </cfoutput>

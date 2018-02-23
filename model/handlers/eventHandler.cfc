@@ -8,7 +8,7 @@ component extends='mura.plugin.pluginGenericEventHandler' output=false {
         variables.pluginConfig.addEventHandler(this);
     }
 
-	public any function onRenderStart(required struct m) {
+    public any function onRenderStart(required struct m) {
         if (m.currentUser().isLoggedIn()) {
             var pluginConfig = m.getPlugin(settings.pluginName);
             var assetsPath = '/plugins/' & pluginConfig.getDirectory() & '/assets';
@@ -20,6 +20,6 @@ component extends='mura.plugin.pluginGenericEventHandler' output=false {
             ';
             cfhtmlhead(text=head);
         }
-	}
+    }
 
 }
