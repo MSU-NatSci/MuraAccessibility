@@ -6,6 +6,8 @@ let contentLoaded = function() {
         return;
     muraToolbar.addEventListener('mouseover', (e) => removeHighlight(), false);
     let muraBody = document.querySelector('.mura-body');
+    if (muraBody == null)
+        muraBody = document.querySelector('#mura-editable-attribute-body');
     if (muraBody == null) {
         console.log("axe: no result for this page (no element with the mura-body class)");
         return;

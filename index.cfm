@@ -3,7 +3,8 @@
     urls = [];
     feedBean = $.getFeed('content')
         .where()
-        .prop('type').isEQ('Page');
+        .prop('type').isEQ('Page')
+        .orProp('type').isEQ('Folder');
     feedBean.setIncludeHomePage(1);
     feedBean.setShowNavOnly(0);
     feedBean.setShowExcludeSearch(1);

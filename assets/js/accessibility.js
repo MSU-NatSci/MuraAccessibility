@@ -58,6 +58,8 @@ let iframeLoaded = function() {
     let iframe = document.getElementById('testIframe');
     let iframeDoc = iframe.contentWindow.document;
     let muraBody = iframeDoc.querySelector('.mura-body');
+    if (muraBody == null)
+        muraBody = iframeDoc.querySelector('#mura-editable-attribute-body');
     if (muraBody == null) {
         let ul = document.getElementById('violationList');
         let docLi = document.createElement('li');
