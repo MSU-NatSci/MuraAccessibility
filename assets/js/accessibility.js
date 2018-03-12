@@ -1,6 +1,6 @@
 'use strict';
 
-let currentURL, nbDocs, nbViolations, stopRequested, startButton, stopButton;
+let currentURL, nbDocs, nbViolations, stopRequested, startButton, stopButton, timeout;
 
 let init = function() {
     startButton = document.getElementById('startChecking');
@@ -35,11 +35,7 @@ let startChecking = function() {
     nbViolations = 0;
     let nbViolationsSpan = document.getElementById('nbViolations');
     nbViolationsSpan.innerHTML = '' + nbViolations;
-    let url = urls[0];
-    currentURL = url;
-    let urlSpan = document.getElementById('testURL');
-    urlSpan.innerHTML = url;
-    iframe.src = url;
+    firstURL();
 }
 
 let stopChecking = function() {
@@ -55,21 +51,28 @@ let endChecking = function() {
 }
 
 let iframeLoaded = function() {
+    if (timeout != null)
+        clearTimeout(timeout);
     let iframe = document.getElementById('testIframe');
-    let iframeDoc = iframe.contentWindow.document;
-    let muraBody = iframeDoc.querySelector('.mura-body');
-    if (muraBody == null)
-        muraBody = iframeDoc.querySelector('#mura-editable-attribute-body');
-    if (muraBody == null) {
-        let ul = document.getElementById('violationList');
-        let docLi = document.createElement('li');
-        docLi.innerHTML = "No result for <a href=\"" + currentURL + "\">" + currentURL +
-            "</a> (no element with the mura-body class)";
-        ul.appendChild(docLi);
-        if (!stopRequested)
-            nextURL();
-        else
-            endChecking();
+    let iframeDoc = null;
+    let errorMessage = null;
+    try {
+        iframeDoc = iframe.contentWindow.document;
+    } catch (error) {
+        errorMessage = "Warning: can't access the document for <a href=\"" + currentURL +
+            "\">" + currentURL + "</a>";
+    }
+    let muraBody = null;
+    if (iframeDoc != null) {
+        muraBody = iframeDoc.querySelector('.mura-body');
+        if (muraBody == null)
+            muraBody = iframeDoc.querySelector('#mura-editable-attribute-body');
+        if (muraBody == null)
+            errorMessage = "Warning: no result for <a href=\"" + currentURL + "\">" +
+                currentURL + "</a> (no element with the mura-body class)";
+    }
+    if (errorMessage != null) {
+        outputErrorMessageAndContinue(errorMessage);
         return;
     }
     let context = jQuery(muraBody); // jQuery is needed in Chrome
@@ -85,22 +88,51 @@ let iframeLoaded = function() {
                 endChecking();
         },
         (error) => {
-            console.log(error);
-            endChecking();
+            outputErrorMessageAndContinue(error);
         }
     );
 }
 
-let nextURL = function() {
+let outputErrorMessageAndContinue = function(message) {
+    let ul = document.getElementById('violationList');
+    let docLi = document.createElement('li');
+    docLi.innerHTML = message;
+    ul.appendChild(docLi);
+    if (!stopRequested)
+        nextURL();
+    else
+        endChecking();
+}
+
+let timeoutFunction = function() {
+    if (window.stop)
+        window.stop();
+    else
+        document.execCommand('Stop'); // MSIE
+    outputErrorMessageAndContinue("Warning: reached timeout when loading  <a href=\"" +
+        currentURL +"\">" + currentURL + "</a>");
+}
+
+let startURL = function(url) {
+    currentURL = url;
     let urlSpan = document.getElementById('testURL');
+    urlSpan.innerHTML = url;
+    let iframe = document.getElementById('testIframe');
+    timeout = setTimeout(timeoutFunction, 10000);
+    iframe.src = url;
+}
+
+let firstURL = function() {
+    startURL(urls[0]);
+}
+
+let nextURL = function() {
     let index = urls.indexOf(currentURL);
     if (index != -1 && index < urls.length - 1) {
-        let iframe = document.getElementById('testIframe');
-        currentURL = urls[index + 1];
-        urlSpan.innerHTML = currentURL;
-        iframe.src = currentURL;
+        startURL(urls[index + 1]);
     } else {
         endChecking();
+        let urlSpan = document.getElementById('testURL');
         urlSpan.innerHTML = "Done";
     }
 }
