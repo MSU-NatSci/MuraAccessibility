@@ -7,7 +7,8 @@ function configureAxe() {
     // Unfortunately, CKEditor saves an empty alt attribute when a user inserts an image
     // without specifying anything for alt, instead of not saving an alt attribute at all.
     // This custom rule will report a violation if an empty alt attribute is used for an
-    // image with a width larger than 30 px.
+    // image with a width larger than 30 px, unless a role is specified with the "presentation"
+    // or "none" value.
     // Aside from that, the only rules used are WCAG2AA and WCAG2A.
     let checks = [
         {
@@ -17,7 +18,10 @@ function configureAxe() {
                     return true;
                 let alt = node.getAttribute('alt');
                 if (alt == null || alt != '')
-                    return true; // another rule will catch that
+                    return true; // another rule will catch alt == null
+                let role = node.getAttribute('role');
+                if (role == 'presentation' || role == 'none')
+                    return true;
                 let width = node.getAttribute('width');
                 if (width != null) {
                     width = parseInt(width);
