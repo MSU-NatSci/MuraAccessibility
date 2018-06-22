@@ -3,6 +3,7 @@
 let currentURL, nbDocs, nbViolations, stopRequested, startButton, stopButton, timeout;
 
 let init = function() {
+    console.log(urls);
     startButton = document.getElementById('startChecking');
     startButton.addEventListener('click', (e) => startChecking(), false);
 
@@ -63,8 +64,10 @@ let endChecking = function() {
 }
 
 let contentLoaded = function(content) {
-    if (timeout != null)
+    if (timeout != null) {
         clearTimeout(timeout);
+        timeout = null;
+    }
     let iframe = document.getElementById('testIframe');
     content = filterContent(content);
     // make these 2 functions available globally so they can be called by the iframe
@@ -80,6 +83,10 @@ let contentLoaded = function(content) {
 }
 
 let outputErrorMessageAndContinue = function(message) {
+    if (timeout != null) {
+        clearTimeout(timeout);
+        timeout = null;
+    }
     let ul = document.getElementById('violationList');
     let docLi = document.createElement('li');
     docLi.innerHTML = message;
