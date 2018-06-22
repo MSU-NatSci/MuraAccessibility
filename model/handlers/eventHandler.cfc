@@ -16,7 +16,7 @@ component extends='mura.plugin.pluginGenericEventHandler' output=false {
     <script src="#assetsPath#/js/axe.min.js" defer></script>
     <script src="#assetsPath#/js/accessibility_common.js" defer></script>
     <script src="#assetsPath#/js/accessibility_in_page.js" defer></script>
-    <link rel="stylesheet" href="#assetsPath#/css/accessibility_in_page.css"></link>
+    <link rel="stylesheet" href="#assetsPath#/css/accessibility_in_page.css">
             ';
             cfhtmlhead(text=head);
         }
