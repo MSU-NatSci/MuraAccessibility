@@ -1,9 +1,9 @@
 'use strict';
 
-let currentURL, nbDocs, nbViolations, stopRequested, startButton, stopButton, timeout;
+let currentURL, nbDocs, nbViolations, stopRequested, startButton, stopButton;
+let requestTimeout = 10000; // ms
 
 let init = function() {
-    console.log(urls);
     startButton = document.getElementById('startChecking');
     startButton.addEventListener('click', (e) => startChecking(), false);
 
@@ -64,10 +64,6 @@ let endChecking = function() {
 }
 
 let contentLoaded = function(content) {
-    if (timeout != null) {
-        clearTimeout(timeout);
-        timeout = null;
-    }
     let iframe = document.getElementById('testIframe');
     content = filterContent(content);
     // make these 2 functions available globally so they can be called by the iframe
@@ -83,10 +79,6 @@ let contentLoaded = function(content) {
 }
 
 let outputErrorMessageAndContinue = function(message) {
-    if (timeout != null) {
-        clearTimeout(timeout);
-        timeout = null;
-    }
     let ul = document.getElementById('violationList');
     let docLi = document.createElement('li');
     docLi.innerHTML = message;
@@ -97,25 +89,17 @@ let outputErrorMessageAndContinue = function(message) {
         endChecking();
 }
 
-let timeoutFunction = function() {
-    if (window.stop)
-        window.stop();
-    else
-        document.execCommand('Stop'); // MSIE
-    outputErrorMessageAndContinue("Warning: reached timeout when loading  <a href=\"" +
-        currentURL +"\">" + currentURL + "</a>");
-}
-
 let startURL = function(url) {
     createIframe();
     currentURL = url;
     let urlSpan = document.getElementById('testURL');
     urlSpan.innerHTML = url;
     let iframe = document.getElementById('testIframe');
-    timeout = setTimeout(timeoutFunction, 10000);
     getContentFromURL(location.protocol + "//" + location.host + url).then(
         (content) => contentLoaded(content),
-        (errMessage) => outputErrorMessageAndContinue(errMessage));
+        (errMessage) => outputErrorMessageAndContinue(
+            'Error loading <a href="' + url + '" target="_blank">' + url +
+            '</a>: ' + errMessage));
 }
 
 let firstURL = function() {
@@ -195,6 +179,7 @@ let addNodes = function(vLi, nodes) {
 let getContentFromURL = function(url) {
     return new Promise((resolve, reject) => {
         let req = new XMLHttpRequest();
+        req.timeout = requestTimeout;
         req.open('GET', url);
         req.onload = (e) => {
             if (req.status === 200) {
@@ -203,9 +188,11 @@ let getContentFromURL = function(url) {
                 reject(req.statusText);
             }
         };
-        req.onerror = () => {
-            //console.log("Error for GET request at " + url);
-            reject("Network error");
+        req.onerror = (e) => {
+            reject("Network error: " + req.statusText);
+        };
+        req.ontimeout = (e) => {
+            reject("Reached " + (requestTimeout/1000) + "s timeout");
         };
         req.send();
     });
