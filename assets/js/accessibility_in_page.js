@@ -18,8 +18,10 @@ let contentLoaded = function() {
         elementRef: true,
         restoreScroll: true
     };
+    let top = window.scrollY; // restoreScroll is not working well, this will save scroll position
     axe.run(context, options).then(
         (results) => {
+            window.scrollTo(window.scrollX, top);
             let violations = results.violations;
             displayBadge(violations);
         },
