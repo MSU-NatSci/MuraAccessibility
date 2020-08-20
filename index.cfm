@@ -1,5 +1,7 @@
 
 <cfscript>
+    include 'plugin/config.cfm';
+    
     urls = [];
     feedBean = $.getFeed('content')
         .where()
