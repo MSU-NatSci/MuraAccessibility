@@ -12,10 +12,7 @@
             return;
         }
         let context = muraBody;
-        configureAxe();
-        let options = {
-            elementRef: true
-        };
+        let options = configureAxe();
         axe.run(context, options).then(
             (results) => {
                 parent.addViolationsAndContinue(results.violations);

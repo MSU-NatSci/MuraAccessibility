@@ -13,11 +13,8 @@ let contentLoaded = function() {
         return;
     }
     let context = muraBody;
-    configureAxe();
-    let options = {
-        elementRef: true,
-        restoreScroll: true
-    };
+    let options = configureAxe();
+    options.restoreScroll = true;
     let top = window.scrollY; // restoreScroll is not working well, this will save scroll position
     axe.run(context, options).then(
         (results) => {

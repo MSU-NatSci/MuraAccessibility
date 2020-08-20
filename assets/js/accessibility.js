@@ -41,7 +41,6 @@ let startChecking = function() {
     stopButton.disabled = false;
     let violationList = document.getElementById('violationList');
     violationList.innerHTML = '';
-    configureAxe();
     nbDocs = 0;
     let nbDocsSpan = document.getElementById('nbDocs');
     nbDocsSpan.innerHTML = '' + nbDocs + ' / ' + urls.length;

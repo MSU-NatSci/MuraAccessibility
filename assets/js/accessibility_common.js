@@ -32,13 +32,12 @@ function configureAxe() {
             }
         }
     ];
-    let rules = axe.getRules(['wcag2aa', 'wcag2a']);
-    rules.push({
+    let rules = [{
         id: 'custom-check-img-alt-ok',
         selector: 'img',
         all: ['custom-alt-probably-ok'],
         tags: ['img']
-    });
+    }];
     axe.configure({
         branding: {
             application: "Mura Accessibility Plugin"
@@ -46,6 +45,14 @@ function configureAxe() {
         checks: checks,
         rules: rules
     });
+    let options = {
+        runOnly: [ 'wcag2aa', 'wcag2a' ],
+        rules: {
+            'custom-check-img-alt-ok': { enabled: true }
+        },
+        elementRef: true
+    };
+    return options;
 }
 
 function fixViolationStrings(violation) {
